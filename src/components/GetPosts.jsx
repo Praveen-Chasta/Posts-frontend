@@ -5,6 +5,9 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { toast, Toaster } from "react-hot-toast";
 import '../App.css';
 
+const Base_Url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+
+
 function GetPosts() {
   const [getPosts, setGetPosts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
@@ -20,7 +23,7 @@ function GetPosts() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/get-posts");
+        const response = await axios.get(`${Base_Url}/get-posts`);
         setGetPosts(response.data);
       } catch (error) {
         console.log("Error:", error.message);
@@ -56,7 +59,7 @@ function GetPosts() {
         }
 
         // Send the PUT request with FormData
-        await axios.put(`http://localhost:4000/update-post/${selectedPost._id}`, formData, {
+        await axios.put(`${Base_Url}/update-post/${selectedPost._id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data', // Ensure the content type is set correctly
             }
@@ -78,7 +81,7 @@ function GetPosts() {
   // Handle Post Deletion
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:4000/delete-post/${selectedPost._id}`);
+      await axios.delete(`${Base_Url}/delete-post/${selectedPost._id}`);
       setDeleteModalOpen(false);
       setGetPosts(getPosts.filter((post) => post._id !== selectedPost._id));
       toast.success("Post Deleted Successfully!");
@@ -111,7 +114,7 @@ function GetPosts() {
                     }}
                     >
                     <img
-                        src={`http://localhost:4000${post.image}`}
+                        src={`${Base_Url}${post.image}`}
                         alt={post.title}
                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
@@ -161,7 +164,7 @@ function GetPosts() {
                 {/* Post Image */}
                 <div className="img-container" style={{ maxWidth: "400px", height: "500px", overflow: "hidden" }}>
                     <img
-                    src={`http://localhost:4000${post.image}`}
+                    src={`${Base_Url}${post.image}`}
                     alt={post.title}
                     className="img-fluid"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}

@@ -2,6 +2,10 @@ import { useState } from "react";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast"; // Import toast and Toaster
 
+const Base_Url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+
+
+
 function CreatePost() {
   const [createPost, setCreatePost] = useState({
     title: "",
@@ -57,7 +61,7 @@ function CreatePost() {
     formData.append("image", image); // Attach the image file
 
     try {
-      const response = await axios.post("http://localhost:4000/create-post", formData, {
+      const response = await axios.post(`${Base_Url}/create-post`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Make sure the header is set correctly for file uploads
         },
